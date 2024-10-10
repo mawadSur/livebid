@@ -178,11 +178,12 @@ const Meeting = () => {
           )}
         </div>
 
-        {!preset.includes("host") && meeting.self.name === highestBid.user && (
-          <ButtonBackgroundShine>
-            You have placed the highest bid!
-          </ButtonBackgroundShine>
-        )}
+        {!preset.includes("host") &&
+          meeting?.self?.name === highestBid.user && (
+            <ButtonBackgroundShine>
+              You have placed the highest bid!
+            </ButtonBackgroundShine>
+          )}
       </DyteHeader>
 
       <div className="meeting-grid">

@@ -58,7 +58,6 @@ const SetupScreen = () => {
           {isHost ? "You are joining as a Host" : "You are joining as a bidder"}
         </p>
         <input
-          disabled={!meeting.self.permissions.canEditDisplayName ?? false}
           className="flex-grow border mb-2.5 border-gray-300 rounded-lg py-2.5 px-4 text-gray-900 placeholder-gray-500 bg-white transition-colors duration-300 ease-in-out focus:outline-none focus:border-[#9e77e0] focus:ring-2 focus:ring-[#9e77e0] focus:ring-opacity-50"
           style={{ transition: "box-shadow 0.3s ease-in-out" }}
           onFocus={(e) =>

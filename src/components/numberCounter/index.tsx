@@ -26,8 +26,8 @@ export default function Counter({
   const motionValue = useMotionValue(isGoingUp ? 0 : targetValue);
 
   const springValue = useSpring(motionValue, {
-    damping: 30,
-    stiffness: 50,
+    damping: 10,
+    stiffness: 20,
   });
   const isInView = useInView(ref, { margin: "0px", once: true });
 
