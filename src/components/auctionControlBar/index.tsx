@@ -2,8 +2,9 @@ import { useDyteMeeting } from "@dytesdk/react-web-core";
 import React, { useCallback } from "react";
 import { useCurrencyInput } from "../../hooks/useCurrency";
 import { formatBid } from "../../utils";
+import Button from "../button";
 import Icon from "../icon/Icon";
-import ButtonRotatingBackgroundGradient from "../button";
+import Counter from "../numberCounter";
 
 type Bid = {
   bid: number;
@@ -61,21 +62,31 @@ const AuctionControlBar: React.FC<Props> = (props) => {
   return (
     <div className="flex flex-col p-2 bg-gray-200 w-full gap-2">
       <div className="flex justify-between text-gray-900">
-        <span className="font-semibold text-lg">
+        <span className="font-medium text-lg">
           {highestBid.user === "default" ? "Starting" : "Highest"} Bid:
         </span>
-        <span className="font-medium text-xl">{formatBid(highestBid.bid)}</span>
+        <Counter
+          direction="up"
+          format={formatBid}
+          targetValue={highestBid.bid}
+        />
       </div>
 
       {isHost && (
         <div className="flex">
           <div className="flex-grow"></div>
           <div className="flex items-center bg-gray-300 rounded-lg border border-gray-200 overflow-hidden">
-            <button onClick={handlePrev} className="p-2 focus:outline-none">
+            <button
+              onClick={handlePrev}
+              className="p-2 transition-transform duration-200 hover:scale-110 focus:outline-none"
+            >
               <Icon size="sm" icon="prev" />
             </button>
             <span className="mx-2 text-gray-700">{item + 1}</span>
-            <button onClick={handleNext} className="p-2 focus:outline-none">
+            <button
+              onClick={handleNext}
+              className="p-2 transition-transform duration-200 hover:scale-110 focus:outline-none"
+            >
               <Icon size="sm" icon="next" />
             </button>
           </div>
@@ -103,7 +114,7 @@ const AuctionControlBar: React.FC<Props> = (props) => {
               }
             />
 
-            <ButtonRotatingBackgroundGradient
+            <Button
               disabled={
                 parseFloat(bid.replace(/[^0-9.]/g, "")) <= highestBid.bid ||
                 bid === ""
@@ -111,9 +122,12 @@ const AuctionControlBar: React.FC<Props> = (props) => {
               onClick={placeBid}
             >
               Your Bid
-            </ButtonRotatingBackgroundGradient>
+            </Button>
           </div>
-          {error && <p className="text-red-500 mt-2">{error}</p>}
+
+          <div className="h-5">
+            {error && <p className="text-red-500 text-sm">{error}</p>}
+          </div>
         </>
       )}
     </div>

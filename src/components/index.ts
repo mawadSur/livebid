@@ -1,5 +1,5 @@
 import Icon from "./icon/Icon";
-import AuctionControlBar from "./auctionControlBar/AuctionControlBar";
+import AuctionControlBar from "./auctionControlBar";
 
 export {
     Icon,
