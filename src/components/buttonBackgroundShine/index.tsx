@@ -10,7 +10,7 @@ export function ButtonBackgroundShine({
   return (
     <button
       className={cn(
-        "inline-flex animate-shine items-center justify-center rounded border border-green-400 text-sm bg-[linear-gradient(110deg,#bbf7d0,45%,#86efac,55%,#bbf7d0)] bg-[length:200%_100%] px-6 py-2 font-medium text-green-900 transition-colors",
+        "inline-flex animate-shine items-center justify-center rounded border border-green-300 text-sm bg-[linear-gradient(110deg,#e6ffe6,45%,#9ae6b4,55%,#e6ffe6)] bg-[length:200%_100%] px-6 py-2 text-black transition-colors",
         className
       )}
     >
