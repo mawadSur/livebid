@@ -1,6 +1,6 @@
 import { useDyteMeeting } from "@dytesdk/react-web-core";
-import React, { useCallback } from "react";
-import { useCurrencyInput } from "../../hooks/useCurrency";
+import React from "react";
+import CurrencyInput from "react-currency-input-field";
 import { formatBid } from "../../utils";
 import Button from "../button";
 import Icon from "../icon/Icon";
@@ -22,26 +22,39 @@ type Props = {
 const AuctionControlBar: React.FC<Props> = (props) => {
   const { meeting } = useDyteMeeting();
   const { isHost, item, highestBid, handleNext, handlePrev } = props;
-  const { value: bid, ref: bidInputRef, clearInput } = useCurrencyInput("");
-
+  const [bid, setBid] = React.useState("");
   const [error, setError] = React.useState<string | null>(null);
 
-  const placeBid = useCallback(() => {
-    const numericBid = parseFloat(bid.replace(/[^0-9.]/g, ""));
-    if (!isNaN(numericBid) && numericBid > highestBid.bid) {
+  const validateBid = (value: string) => {
+    if (value === "") {
+      setError(null); // Clear error if input is empty
+    } else if (!isNaN(+value) && +value > highestBid.bid) {
+      setError(null); // Valid bid, clear error
+    } else {
+      setError("Bid must be higher than the highest bid."); // Invalid bid, show error
+    }
+  };
+
+  const placeBid = () => {
+    if (!isNaN(+bid) && +bid > highestBid.bid) {
       meeting.participants.broadcastMessage("new-bid", {
-        bid: numericBid,
+        bid: +bid,
         user: meeting.self.name,
       });
 
       setError(null);
       setTimeout(() => {
-        clearInput();
+        setBid("");
       }, 0);
     } else {
       setError("Bid must be higher than the highest bid.");
     }
-  }, [bid, meeting, highestBid, clearInput]);
+  };
+
+  const handleChange = (value: string | undefined) => {
+    setBid(value || "");
+    validateBid(value || "");
+  };
 
   return (
     <div className="flex flex-col p-2 bg-gray-200 w-full gap-2">
@@ -80,29 +93,15 @@ const AuctionControlBar: React.FC<Props> = (props) => {
       {!isHost && (
         <>
           <div className="flex items-center gap-2">
-            <input
-              ref={bidInputRef}
+            <CurrencyInput
+              className="flex-grow border border-gray-300 rounded-lg py-2.5 px-4 text-gray-900 placeholder-gray-500 bg-white transition-colors duration-300 ease-in-out focus:outline-none focus:border-[#9e77e0]"
               placeholder="Enter bid (e.g. $1,000.00)"
-              type="text"
-              className="flex-grow border border-gray-300 rounded-lg py-2.5 px-4 text-gray-900 placeholder-gray-500 bg-white transition-colors duration-300 ease-in-out focus:outline-none focus:border-[#9e77e0] focus:ring-2 focus:ring-[#9e77e0] focus:ring-opacity-50"
-              style={{
-                transition: "box-shadow 0.3s ease-in-out",
-              }}
-              onFocus={(e) =>
-                (e.currentTarget.style.boxShadow =
-                  "0 0 5px rgba(59, 130, 246, 0.5)")
-              }
+              decimalsLimit={2}
+              prefix="$"
+              value={bid}
+              onValueChange={handleChange}
             />
-
-            <Button
-              disabled={
-                parseFloat(bid.replace(/[^0-9.]/g, "")) <= highestBid.bid ||
-                bid === ""
-              }
-              onClick={placeBid}
-            >
-              Your Bid
-            </Button>
+            <Button onClick={placeBid}>Your Bid</Button>
           </div>
 
           <div className="h-5">

@@ -10,10 +10,10 @@
   "dependencies": {
     "@dytesdk/react-ui-kit": "^2.0.3",
     "@dytesdk/react-web-core": "^2.0.7",
-    "autonumeric": "^4.10.5",
     "clsx": "^2.1.1",
     "framer-motion": "^11.11.7",
     "react": "^18.2.0",
+    "react-currency-input-field": "^3.8.0",
     "react-dom": "^18.2.0",
     "tailwind-merge": "^2.5.3"
   },
