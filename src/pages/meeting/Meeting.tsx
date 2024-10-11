@@ -14,7 +14,9 @@ import {
 } from "@dytesdk/react-ui-kit";
 import { useDyteMeeting } from "@dytesdk/react-web-core";
 import { useEffect, useState } from "react";
-import { AuctionControlBar, Icon } from "../../components";
+import { Icon } from "../../components";
+import AuctionControlBar from "../../components/auctionControlBar";
+import { ButtonBackgroundShine } from "../../components/buttonBackgroundShine";
 import { bidItems } from "../../constants";
 import "./meeting.css";
 
@@ -176,9 +178,12 @@ const Meeting = () => {
           )}
         </div>
 
-        {!preset.includes("host") && meeting.self.name === highestBid.user && (
-          <div className="banner">You have placed the highest bid!</div>
-        )}
+        {!preset.includes("host") &&
+          meeting?.self?.name === highestBid.user && (
+            <ButtonBackgroundShine>
+              You have placed the highest bid!
+            </ButtonBackgroundShine>
+          )}
       </DyteHeader>
 
       <div className="meeting-grid">

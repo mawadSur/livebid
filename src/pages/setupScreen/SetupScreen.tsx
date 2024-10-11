@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import "./setupScreen.css";
 import { useDyteMeeting } from "@dytesdk/react-web-core";
 import {
   DyteAudioVisualizer,
@@ -9,6 +8,7 @@ import {
   DyteNameTag,
   DyteParticipantTile,
 } from "@dytesdk/react-ui-kit";
+import Button from "../../components/button";
 
 const SetupScreen = () => {
   const { meeting } = useDyteMeeting();
@@ -32,9 +32,9 @@ const SetupScreen = () => {
   };
 
   return (
-    <div className="setup-screen">
-      <div className="setup-media">
-        <div className="video-container">
+    <div className="h-screen w-screen flex flex-row items-center justify-between sm:flex-col sm:justify-center sm:items-center">
+      <div className="w-1/2 sm:w-full flex items-center justify-center">
+        <div className="relative">
           <DyteParticipantTile meeting={meeting} participant={meeting.self}>
             <DyteAvatar size="md" participant={meeting.self} />
             <DyteNameTag meeting={meeting} participant={meeting.self}>
@@ -44,7 +44,7 @@ const SetupScreen = () => {
                 participant={meeting.self}
               />
             </DyteNameTag>
-            <div className="setup-media-controls">
+            <div className="absolute bottom-2 right-2 flex">
               <DyteMicToggle size="sm" meeting={meeting} />
               &ensp;
               <DyteCameraToggle size="sm" meeting={meeting} />
@@ -52,26 +52,22 @@ const SetupScreen = () => {
           </DyteParticipantTile>
         </div>
       </div>
-      <div className="setup-information">
-        <div className="setup-content">
-          <h2>Welcome! {name}</h2>
-          <p>
-            {isHost
-              ? "You are joining as a Host"
-              : "You are joining as a bidder"}
-          </p>
-          <input
-            disabled={!meeting.self.permissions.canEditDisplayName ?? false}
-            className="setup-name"
-            value={name}
-            onChange={(e) => {
-              setName(e.target.value);
-            }}
-          />
-          <button className="setup-join" onClick={joinMeeting}>
-            Join Meeting
-          </button>
-        </div>
+      <div className="flex flex-col w-1/2 p-8 sm:w-full sm:max-w-sm text-center">
+        <h2 className="my-2 font-medium">Welcome! {name}</h2>
+        <p className="my-2 text-gray-700">
+          {isHost ? "You are joining as a Host" : "You are joining as a bidder"}
+        </p>
+        <input
+          className="flex-grow border mb-2.5 border-gray-300 rounded-lg py-2.5 px-4 text-gray-900 placeholder-gray-500 bg-white transition-colors duration-300 ease-in-out focus:outline-none focus:border-[#9e77e0] focus:ring-2 focus:ring-[#9e77e0] focus:ring-opacity-50"
+          style={{ transition: "box-shadow 0.3s ease-in-out" }}
+          onFocus={(e) =>
+            (e.currentTarget.style.boxShadow =
+              "0 0 5px rgba(59, 130, 246, 0.5)")
+          }
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+        <Button onClick={joinMeeting}>Join Meeting</Button>
       </div>
     </div>
   );

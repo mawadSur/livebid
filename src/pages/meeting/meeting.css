@@ -100,14 +100,6 @@
   display: flex;
 }
 
-.banner {
-  background-color: #d1fae5;
-  color: #065f46;
-  border: 1px solid #34d399;
-  padding: 4px 16px;
-  border-radius: 6px;
-}
-
 @media screen and (max-width: 800px) {
   .meeting-grid {
     position: relative;
